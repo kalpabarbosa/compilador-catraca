@@ -1,5 +1,4 @@
 .vscode/*
-bin/*
 docs/*
 *.json
 *.exe
