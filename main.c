@@ -94,27 +94,28 @@ int valida_caractere(char c) {
 	static int coluna = 0;
 	Token token;
 
-	if(isspace(c)) {
-		posicao = 0;
-	} else {
-		nome_token[posicao] = c;
-		posicao++;
-	}
-
-	if(eh_valido(nome_token)) {
-		token.coluna = coluna;
-		token.linha = linha;
-		strcpy(token.nome, nome_token);
-
-		lista_tokens = insere(token, lista_tokens);
-		strcpy(nome_token, "\000");
-		// posicao = 0;
-	}
-
 	coluna++;
 	if(c == '\n') {
 		linha++;
 		coluna = 0;
+	}
+
+	if(isspace(c)) {
+		posicao = 0;
+    return c;
+
+	} else {
+		nome_token[posicao] = c;
+
+    if(eh_valido(nome_token)) {
+      token.coluna = coluna;
+      token.linha = linha;
+      strcpy(token.nome, nome_token);
+
+      lista_tokens = insere(token, lista_tokens);
+      strcpy(nome_token, "\000");
+      posicao++;
+    }
 	}
 }
 
