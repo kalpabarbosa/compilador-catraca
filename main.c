@@ -26,19 +26,20 @@
 #include <string.h>
 
 /* 2 defines */
-#define MAX_TAMANHO_NOME_VAR	50
-#define NULL					((void *)0)
+#define MAX_TAMANHO_NOME_VAR 50
+#define NULL                 ((void *)0)
+
 /* 3 external declarations */
 /* 4 typedefs */
 typedef struct {
-	int coluna;
-	int linha;
-	char nome[MAX_TAMANHO_NOME_VAR];
+  int coluna;
+  int linha;
+  char nome[MAX_TAMANHO_NOME_VAR];
 } Token;
 
 typedef struct ListaToken {
-	Token token;
-	struct ListaToken *next;
+  Token token;
+  struct ListaToken *next;
 } ListaToken;
 
 /* 5 global variable declarations */
@@ -50,62 +51,62 @@ int eh_valido(char*);
 void imprime_lista(ListaToken*);
 
 int main(int argc, char *argv[]) {
-	FILE *fp;
-	char c;
-	char nome_arquivo[50] = "file1.txt";
+  FILE *fp;
+  char c;
+  char nome_arquivo[50] = "file1.txt";
 
-	// strcpy(nome_arquivo, argv[1]);
-	// if(argc == 1) {
-	// 	printf("Usage:\n\t$catraca [options] [file-names]\n");
-	// 	printf("options:\n");
-	// 	printf("\tc - Compilar. Realiza analise lexica, sintatica e semantica.\n");
-	// 	printf("\nfile-names - Um ou mais nomes de arquivos, separados por virgula.");
+  // strcpy(nome_arquivo, argv[1]);
+  // if(argc == 1) {
+  // 	printf("Usage:\n\t$catraca [options] [file-names]\n");
+  // 	printf("options:\n");
+  // 	printf("\tc - Compilar. Realiza analise lexica, sintatica e semantica.\n");
+  // 	printf("\nfile-names - Um ou mais nomes de arquivos, separados por virgula.");
 
-   	// 	getchar();
-	// 	exit(-1);
-	// }
+      // 	getchar();
+  // 	exit(-1);
+  // }
 
-	if(fp = fopen(nome_arquivo, "r")) {
+  if(fp = fopen(nome_arquivo, "r")) {
 
-		do {
-			c = fgetc(fp);
-			valida_caractere(c);
+    do {
+      c = fgetc(fp);
+      valida_caractere(c);
 
-		} while(!feof(fp));
+    } while(!feof(fp));
 
-		imprime_lista(lista_tokens);
+    imprime_lista(lista_tokens);
 
-	} else {
-		printf("Nao foi possivel ler do arquivo \"%s\"", argv[1]);
-    	getchar();
-		exit(-1);
-	}
+  } else {
+    printf("Nao foi possivel ler do arquivo \"%s\"", argv[1]);
+    getchar();
+    exit(-1);
+  }
 
-	printf("Fim da compilacao!\n");
-    // getchar();
-	exit(1);
+  printf("Fim da compilacao!\n");
+  // getchar();
+  exit(1);
 }
 
 /* 8 function declarations */
 int valida_caractere(char c) {
-	static char nome_token[MAX_TAMANHO_NOME_VAR] = "\000";
-	static int posicao = 0;
-	static int linha = 0;
-	static int coluna = 0;
-	Token token;
+  static char nome_token[MAX_TAMANHO_NOME_VAR] = "\000";
+  static int posicao = 0;
+  static int linha = 0;
+  static int coluna = 0;
+  Token token;
 
-	coluna++;
-	if(c == '\n') {
-		linha++;
-		coluna = 0;
-	}
+  coluna++;
+  if(c == '\n') {
+    linha++;
+    coluna = 0;
+  }
 
-	if(isspace(c)) {
-		posicao = 0;
-    return c;
+  if(isspace(c)) {
+    posicao = 0;
+  return c;
 
-	} else {
-		nome_token[posicao] = c;
+  } else {
+    nome_token[posicao] = c;
 
     if(eh_valido(nome_token)) {
       token.coluna = coluna;
@@ -116,29 +117,29 @@ int valida_caractere(char c) {
       strcpy(nome_token, "\000");
       posicao++;
     }
-	}
+  }
 }
 
 ListaToken *insere(Token token, ListaToken *lista) {
-	ListaToken *nova = (ListaToken*) malloc(sizeof(ListaToken));
-	nova->token = token;
-	nova->next = lista;
+  ListaToken *nova = (ListaToken*) malloc(sizeof(ListaToken));
+  nova->token = token;
+  nova->next = lista;
 
-	return nova;
+  return nova;
 }
 
 int eh_valido(char *nome_token) {
-	if(nome_token[0] == '\000') return 0;
+  if(nome_token[0] == '\000') return 0;
 
-	return 1;
+  return 1;
 }
 
 void imprime_lista(ListaToken *lista) {
-	ListaToken *l = lista;
+  ListaToken *l = lista;
 
-	while(l != NULL) {
-		printf("%s\n", l->token.nome);
+  while(l != NULL) {
+    printf("%s\n", l->token.nome);
 
-		l = l->next;
-	}
+    l = l->next;
+  }
 }
